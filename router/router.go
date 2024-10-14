@@ -13,12 +13,11 @@ import (
 func RegisterRouter(core *core.Core) {
 	//core.Get("foo", FooControllerHandler)
 	//静态路由
-	core.Get("/user/login", middlerware.Test1(),UserLoginHandler)
-
+	core.Use(middlerware.Recovery()) //对所有的路由都设置这个中间件
+	core.Get("/user/login", middlerware.Test1(), UserLoginHandler)
 	//批量通用前缀
 	subjectApi := core.Group("/subject")
 	{
-
 		subjectApi.Get("/:id", SubjectGetHandler)
 		subjectApi.Delete("/:id", SubjectDelHandler)
 		subjectApi.Put("/:id", SubjectUpdateHandler)
